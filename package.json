@@ -1,0 +1,44 @@
+{
+  "name": "zcli-bulk-action",
+  "version": "1.0.0",
+  "description": "Github Action to deploy Zendesk Apps using ZCLI to multiple instances.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "prepare": "ncc build index.js -o dist --source-map --license licenses.txt",
+    "test": "jest",
+    "all": "npm run lint && npm run prepare && npm run test"
+  },
+  "engines": {
+    "node": ">=16",
+    "yarn": ">=1.22.17"
+  },
+  "packageManager": "yarn@1.22.17",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eteg/zcli-bulk-action.git"
+  },
+  "keywords": [
+    "GitHub",
+    "Actions",
+    "JavaScript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eteg/zcli-bulk-action/issues"
+  },
+  "homepage": "https://github.com/eteg/zcli-bulk-action/blob/master/README.md",
+  "dependencies": {
+    "@actions/core": "^1.9.1",
+    "@actions/exec": "^1.1.1",
+    "@actions/github": "^5.0.3",
+    "@zendesk/zcli": "^1.0.0-beta.30",
+    "archiver": "^5.3.1"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.34.0",
+    "eslint": "^8.23.0",
+    "jest": "^29.0.3"
+  }
+}

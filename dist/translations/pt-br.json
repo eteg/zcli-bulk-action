@@ -1,0 +1,8 @@
+{
+    "app": {
+        "name": "Reserva app",
+        "short_description": "Reserva Zendesk app",
+        "long_description": "Reserva Zendesk app",
+        "installation_instructions": "Simply click install."
+    }
+}
