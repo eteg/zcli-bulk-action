@@ -41059,16 +41059,20 @@ async function run() {
     await exec.exec(`echo 🔎 The name of your branch is ${ref} and your repository is ${repository.name}.`);
     
     await exec.exec(`echo 🐧 Setting up the dependencies...`);
-    //await exec.exec('yarn install');
+    await exec.exec('yarn install');
 
+    await exec.exec(`echo 🔎 Building, Packaging and Validating...`);
+    await exec.exec(`echo ${process.env} >>> .env`);
+    await exec.exec(`yarn build`);
+
+    // DEBUG
+    await exec.exec(`echo ${environment}`)
     await exec.exec(`echo ${path}`)
 
     const res = await package.createPackage('dist', '1.0.0')
     await exec.exec(`echo ${res}`)
 
-    //await exec.exec(`echo 🔎 Building, Packaging and Validating...`);
-    //await exec.exec(`echo ${process.env} >>> .env`);
-    //await exec.exec(`yarn build`);
+
     //await exec.exec(`echo 🚀 Updating an existing application...`);
     //await exec.exec(`echo 🎉 Job has been finished`);
 
