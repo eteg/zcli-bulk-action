@@ -22,6 +22,11 @@ async function run() {
 
     const environment = core.getInput('ENVIRONMENT');
     const path = core.getInput('PATH');
+    
+    console.log(path)
+    console.log('aaaa')
+    console.log(process.env)
+    
     const customers = process.env.CUSTOMERS
 
     console.log(customers)
