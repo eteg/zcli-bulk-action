@@ -92,7 +92,6 @@ jobs:
         uses: eteg/zcli-bulk-action@v1
         with:
           PATH: "dist"
-          ENVIRONMENT: ${{github.ref_name == 'main' && 'production' || 'staging'}}
 ```
 
 For a while we dont have a way or API to get the list of instances where eZVoice is installed, so we need to set the list of instances in the `Settings > Environments` in eZVoice repository like:
