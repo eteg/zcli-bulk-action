@@ -47429,7 +47429,7 @@ async function run() {
 
     const environment = core.getInput('ENVIRONMENT');
     const path = core.getInput('PATH');
-    const customers = core.getInput('CUSTOMERS')
+    const customers = JSON.parse(core.getInput('CUSTOMERS'))
 
     console.log(customers)
 

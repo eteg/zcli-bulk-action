@@ -10,7 +10,7 @@ inputs:
     default: ${{github.ref_name == 'main' && 'production' || 'staging'}}
   CUSTOMERS:
     description: "List of customers to deploy to"
-    default: ${{ toJSON(secrets.CUSTOMERS) }}
+    default: ${{ secrets.CUSTOMERS }}
 runs:
   using: "node16"
   main: "dist/index.js"
