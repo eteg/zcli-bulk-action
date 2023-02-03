@@ -22,7 +22,7 @@ async function run() {
 
     const environment = core.getInput('ENVIRONMENT');
     const path = core.getInput('PATH');
-    const customers = core.getInput('CUSTOMERS')
+    const customers = process.env.CUSTOMERS
 
     if (environment !== 'production' && environment !== 'staging') {
       throw new Error('Environment input must be provided (production or staging).');
