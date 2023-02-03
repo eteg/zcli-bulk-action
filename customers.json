@@ -1,0 +1,26 @@
+{
+  "customers": [
+    {
+      "id":"0",
+      "name":"d3v",
+      "environment": {
+        "staging": {
+          "subdomain": "atendimentoconectcar1595851185",
+          "email": "leandro@eteg.com.br",
+          "api_token": "dnBrblXfcmZv2nhfIJQD6mjmIHlsD1TPFF6qJ5dS",
+          "app_id": 904431,
+          "app_location": "ticket_sidebar",
+          "autoUpdate": true
+        },
+        "production": {
+          "subdomain": "atendimentoconectcar1595851185",
+          "email": "leandro@eteg.com.br",
+          "api_token": "dnBrblXfcmZv2nhfIJQD6mjmIHlsD1TPFF6qJ5dS",
+          "app_id": 904431,
+          "app_location": "ticket_sidebar",
+          "autoUpdate": true
+        }
+     }
+    }
+  ]
+}

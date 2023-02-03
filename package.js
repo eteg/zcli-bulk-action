@@ -49,7 +49,16 @@ async function createPackage(srcRelativePath) {
 async function validatePackage(packagePath) {
   const formData = new FormData()
   formData.append('file', fs.createReadStream(packagePath))
-  const response = await API.post('/v2/apps/validate', { formData })
+  const response = await API('/v2/apps/validate',
+    {
+      data: formData,
+      method: 'POST'
+    }
+  )
+  if (response.status !== 200) {
+    throw new Error('Package validation failed')
+  }
+  
   return response.data
 }
 

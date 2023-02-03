@@ -92,9 +92,39 @@ jobs:
         uses: eteg/zcli-bulk-action@v1
         with:
           PATH: "dist"
+          ENVIRONMENT: ${{github.ref_name == 'main' && 'production' || 'staging'}}
 ```
 
-> NOTE: You must setup env variables in `Settings > Environments` in your repository that will be used with this action.
+For a while we dont have a way or API to get the list of instances where eZVoice is installed, so we need to set the list of instances in the `Settings > Environments` in eZVoice repository like:
+
+```json
+{
+  "customers": [
+    {
+      "id":"0",
+      "customer":"d3v",
+      "environment": {
+        "staging": {
+          "subdomain": "",
+          "email": "",
+          "api_token": "",
+          "app_id": ,
+          "app_location": "ticket_sidebar",
+          "autoUpdate": true
+        },
+        "production": {
+          "subdomain": "",
+          "email": "",
+          "api_token": "",
+          "app_id": ,
+          "app_location": "ticket_sidebar",
+          "autoUpdate": true
+        }
+     }
+    }
+  ]
+}
+```
 
 ## :envelope: Package for distribution
 

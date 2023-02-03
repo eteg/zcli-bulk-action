@@ -8,7 +8,11 @@ async function uploadPackage(packagePath) {
 
   packageForm.append('uploaded_data', packageBuffer)
 
-  const response = await API.post(`/v2/apps/uploads.json`, {data: packageForm})
+  const response = await API(`/v2/apps/uploads`, 
+  {
+    data: packageForm,
+    method: 'POST',
+  })
 
   if (response.status !== 201) {
     throw new Error('Package upload failed')
@@ -18,10 +22,16 @@ async function uploadPackage(packagePath) {
 }
 
 async function installPackage(upload_id) {
-  const response = await API.put(
+  const response = await API(
     `/v2/apps/${process.env.ZENDESK_APP_ID}`, 
-    { upload_id },
-    { headers: { Accept: "*/*" } }
+    {
+      data: JSON.stringify( { upload_id }),
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }
   )
   
   return response.data.job_id
