@@ -77,6 +77,9 @@ jobs:
       matrix:
         node-version: [16.x]
 
+    env:
+      CUSTOMERS: ${{ secrets.CUSTOMERS }}
+
     steps:
       - name: Checkout the code
         uses: actions/checkout@v3
