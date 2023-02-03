@@ -22,7 +22,7 @@ async function run() {
 
     const environment = core.getInput('ENVIRONMENT');
     const path = core.getInput('PATH');
-    const customers = JSON.parse(process.env.CUSTOMERS)
+    const customers = process.env.CUSTOMERS
 
     console.log(customers)
 
