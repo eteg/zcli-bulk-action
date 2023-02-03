@@ -2,7 +2,7 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const exec = require('@actions/exec');
 
-const package = require('./package');
+const package = require('./src/package');
 
 async function run() {
   try {
@@ -39,7 +39,7 @@ async function run() {
     await exec.exec(`echo ${environment}`)
     await exec.exec(`echo ${path}`)
 
-    const res = await package.createPackage('dist', '1.0.0')
+    const res = await package.createPackage(path)
     await exec.exec(`echo ${res}`)
 
 
