@@ -1,6 +1,9 @@
 const path = require('path')
 const fs = require('fs')
 const archiver = require('archiver')
+const FormData = require('form-data')
+
+const API = require('./api.js')
 
 async function createPackage(srcRelativePath) {
   const srcAbsolutePath = path.resolve(srcRelativePath)
@@ -13,7 +16,7 @@ async function createPackage(srcRelativePath) {
     throw new Error('zcli.apps.config.json not found')
   }
 
-  const manifest = fs.readFileSync(path.join(srcAbsolutePath, 'manifest.json'))
+  const manifest = fs.readFileSync(path.join(srcAbsolutePath, 'manifest.json'), 'utf8')
   const { version } = JSON.parse(manifest)
 
   const packageName = `${new Date().toISOString().replace(/[^0-9]/g, '')}-v${version}`
@@ -43,17 +46,14 @@ async function createPackage(srcRelativePath) {
 }
 
 // Zendesk API route not working as expected
-/* async function validatePackage(packagePath) {
+async function validatePackage(packagePath) {
   const formData = new FormData()
   formData.append('file', fs.createReadStream(packagePath))
-  const response = await API.post('/v2/apps/validate', formData, {
-    headers: {
-      "Content-Type": "multipart/form-data"
-    }
-  })
-  console.log(response.data.error)
-} */
+  const response = await API.post('/v2/apps/validate', { formData })
+  return response.data
+}
 
 module.exports = {
   createPackage,
+  validatePackage
 }

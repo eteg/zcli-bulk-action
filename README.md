@@ -1,6 +1,6 @@
-# ZCLI Action
+# ZCLI Bulk Action
 
-Github Action to deploy Zendesk Apps using ZCLI.
+Github Action to deploy Zendesk Apps to multiple instances.
 
 ## :clipboard: Table of contents
 
@@ -51,13 +51,13 @@ run()
 You can now consume the action by referencing the release branch, e.g.: `@v1`
 
 ```yaml
-uses: eteg/zcli-action@v1
+uses: eteg/zcli-bulk-action@v1
 ```
 
 This is a complete example of the action usage for development purposes.:
 
 ```yaml
-name: CD Zendesk
+name: Bulk update Zendesk instances
 
 on:
   # Enables manual invocation of the workflow from the github action user interface
@@ -77,29 +77,24 @@ jobs:
       matrix:
         node-version: [16.x]
 
-    env:
-      ZENDESK_SUBDOMAIN: ${{ secrets.ZENDESK_SUBDOMAIN }}
-      ZENDESK_EMAIL: ${{ secrets.ZENDESK_EMAIL }}
-      ZENDESK_API_TOKEN: ${{ secrets.ZENDESK_API_TOKEN }}
-
     steps:
       - name: Checkout the code
         uses: actions/checkout@v3
 
-      - name: Setup node version from .nvmrc file
+      - name: Setup node version from .node-version file
         uses: actions/setup-node@v3
         id: setup-node
         with:
-          node-version-file: ".nvmrc"
+          node-version-file: ".node-version"
           cache: "yarn"
 
-      - name: Setup ZCLI
-        uses: eteg/zcli-action@v3
+      - name: Setup ZCLI Bulk
+        uses: eteg/zcli-bulk-action@v1
         with:
           PATH: "dist"
 ```
 
-> NOTE: You must setup env variables in `Settings > Environments`
+> NOTE: You must setup env variables in `Settings > Environments` in your repository that will be used with this action.
 
 ## :envelope: Package for distribution
 

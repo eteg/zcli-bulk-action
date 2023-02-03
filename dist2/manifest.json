@@ -1,5 +1,5 @@
 {
-  "name": "Zendesk Template",
+  "name": "Zendesk Template 2",
   "author": {
     "name": "eteg",
     "email": "contatod@eteg.com.br",
@@ -16,6 +16,6 @@
       }
     }
   },
-  "version": "1.0.5",
+  "version": "1.0.33",
   "frameworkVersion": "2.0"
 }
