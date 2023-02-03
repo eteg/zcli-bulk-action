@@ -47446,22 +47446,22 @@ async function run() {
 
     await exec.exec(`echo 🐧 Packaging, Validating and Updating...`);
     for (const customer of customers) {
-      await exec.exec(`🐧 Creating .env and Building...`);
+      await exec.exec(`echo 🐧 Creating .env and Building...`);
       utils.objectToEnv(customer.environment[environment])
       await exec.exec(`yarn build`);
       
-      await exec.exec(`🐧 Packaging, Validating and Updating...`);
+      await exec.exec(`echo 🐧 Packaging, Validating and Updating...`);
       const packagePath = await package.createPackage(path)
       await package.validatePackage(packagePath)
       const uploadId = await update.uploadPackage(packagePath)
       const jobId = await update.installPackage(uploadId)
       const { app_id } = await job.getJobStatuses(jobId)
       
-      await exec.exec(`🐧 Package path: ${packagePath}`);
-      await exec.exec(`🐧 Upload ID: ${uploadId}`);
-      await exec.exec(`🐧 Job ID: ${jobId}`);
-      await exec.exec(`🐧 Job Status: Completed for app_id: ${app_id}`);
-      await exec.exec(`🐧 Customer: ${customer.name} has been updated.`);
+      await exec.exec(`echo 🐧 Package path: ${packagePath}`);
+      await exec.exec(`echo 🐧 Upload ID: ${uploadId}`);
+      await exec.exec(`echo 🐧 Job ID: ${jobId}`);
+      await exec.exec(`echo 🐧 Job Status: Completed for app_id: ${app_id}`);
+      await exec.exec(`echo 🐧 Customer: ${customer.name} has been updated.`);
     }
 
     await exec.exec(`echo 🚀 Job has been finished`);
