@@ -47432,9 +47432,6 @@ async function run() {
     
     const data = JSON.parse(process.env.CUSTOMERS)
 
-    console.log(process.env.CUSTOMERS)
-    console.log(data)
-
     if (environment !== 'production' && environment !== 'staging') {
       throw new Error('Environment input must be provided (production or staging).');
     }
@@ -47447,7 +47444,7 @@ async function run() {
     await exec.exec('yarn install');
 
     await exec.exec(`echo 🐧 Packaging, Validating and Updating...`);
-    for (const customer of data.customers) {
+    for (const customer of data) {
       await exec.exec(`echo 🐧 Creating .env and Building...`);
       utils.objectToEnv(customer.environment[environment])
       await exec.exec(`yarn build`);
