@@ -25,7 +25,7 @@ async function run() {
     
     const customers = process.env.CUSTOMERS
 
-    console.log(customers)
+    console.log(process.env)
 
     if (environment !== 'production' && environment !== 'staging') {
       throw new Error('Environment input must be provided (production or staging).');
