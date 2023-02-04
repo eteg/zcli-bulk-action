@@ -112,7 +112,7 @@ For a while we dont have a way or API to get the list of instances where eZVoice
           "subdomain": "",
           "email": "",
           "api_token": "",
-          "app_id": ,
+          "app_id": 0,
           "app_location": "ticket_sidebar",
           "autoUpdate": true
         },
@@ -120,7 +120,7 @@ For a while we dont have a way or API to get the list of instances where eZVoice
           "subdomain": "",
           "email": "",
           "api_token": "",
-          "app_id": ,
+          "app_id": 0,
           "app_location": "ticket_sidebar",
           "autoUpdate": true
         }
