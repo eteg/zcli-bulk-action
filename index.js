@@ -25,7 +25,8 @@ async function run() {
     
     const data = JSON.parse(process.env.CUSTOMERS)
 
-    console.log(data.customers)
+    console.log(process.env.CUSTOMERS)
+    console.log(data)
 
     if (environment !== 'production' && environment !== 'staging') {
       throw new Error('Environment input must be provided (production or staging).');
