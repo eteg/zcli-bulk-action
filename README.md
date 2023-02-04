@@ -99,6 +99,8 @@ jobs:
 
 For a while we dont have a way or API to get the list of instances where eZVoice is installed, so we need to set the list of instances in the `Settings > Environments` in eZVoice repository like:
 
+> **Note:** The `CUSTOMERS` secret is a JSON string (stringify).
+
 ```json
 {
   "customers": [

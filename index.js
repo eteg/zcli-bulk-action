@@ -23,7 +23,7 @@ async function run() {
     const environment = core.getInput('ENVIRONMENT');
     const path = core.getInput('PATH');
     
-    const customers = JSON.parse(process.env.CUSTOMERS)
+    const data = JSON.parse(process.env.CUSTOMERS)
 
     if (environment !== 'production' && environment !== 'staging') {
       throw new Error('Environment input must be provided (production or staging).');
@@ -37,7 +37,7 @@ async function run() {
     await exec.exec('yarn install');
 
     await exec.exec(`echo 🐧 Packaging, Validating and Updating...`);
-    for (const customer of customers) {
+    for (const customer of data.customers) {
       await exec.exec(`echo 🐧 Creating .env and Building...`);
       utils.objectToEnv(customer.environment[environment])
       await exec.exec(`yarn build`);
