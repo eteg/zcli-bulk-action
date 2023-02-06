@@ -1,6 +1,6 @@
-# ZCLI Action
+# ZCLI Bulk Action
 
-Github Action to deploy Zendesk Apps using ZCLI.
+Github Action to deploy Zendesk Apps to multiple instances.
 
 ## :clipboard: Table of contents
 
@@ -51,13 +51,13 @@ run()
 You can now consume the action by referencing the release branch, e.g.: `@v1`
 
 ```yaml
-uses: eteg/zcli-action@v1
+uses: eteg/zcli-bulk-action@v1
 ```
 
 This is a complete example of the action usage for development purposes.:
 
 ```yaml
-name: CD Zendesk
+name: Bulk update Zendesk instances
 
 on:
   # Enables manual invocation of the workflow from the github action user interface
@@ -78,28 +78,57 @@ jobs:
         node-version: [16.x]
 
     env:
-      ZENDESK_SUBDOMAIN: ${{ secrets.ZENDESK_SUBDOMAIN }}
-      ZENDESK_EMAIL: ${{ secrets.ZENDESK_EMAIL }}
-      ZENDESK_API_TOKEN: ${{ secrets.ZENDESK_API_TOKEN }}
+      CUSTOMERS: ${{ secrets.CUSTOMERS }}
 
     steps:
       - name: Checkout the code
         uses: actions/checkout@v3
 
-      - name: Setup node version from .nvmrc file
+      - name: Setup node version from .node-version file
         uses: actions/setup-node@v3
         id: setup-node
         with:
-          node-version-file: ".nvmrc"
+          node-version-file: ".node-version"
           cache: "yarn"
 
-      - name: Setup ZCLI
-        uses: eteg/zcli-action@v3
+      - name: Setup ZCLI Bulk
+        uses: eteg/zcli-bulk-action@v1
         with:
           PATH: "dist"
 ```
 
-> NOTE: You must setup env variables in `Settings > Environments`
+For a while we dont have a way or API to get the list of instances where eZVoice is installed, so we need to set the list of instances in the `Settings > Environments` in eZVoice repository like:
+
+> **Note:** The `CUSTOMERS` secret is a JSON string (stringify).
+
+```json
+{
+  "customers": [
+    {
+      "id":"0",
+      "customer":"d3v",
+      "environment": {
+        "staging": {
+          "subdomain": "",
+          "email": "",
+          "api_token": "",
+          "app_id": 0,
+          "app_location": "ticket_sidebar",
+          "autoUpdate": true
+        },
+        "production": {
+          "subdomain": "",
+          "email": "",
+          "api_token": "",
+          "app_id": 0,
+          "app_location": "ticket_sidebar",
+          "autoUpdate": true
+        }
+     }
+    }
+  ]
+}
+```
 
 ## :envelope: Package for distribution
 

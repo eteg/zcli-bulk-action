@@ -3,6 +3,9 @@ const github = require('@actions/github');
 const exec = require('@actions/exec');
 
 const package = require('./package');
+const update = require('./update');
+const job = require('./job');
+const utils = require('./utils');
 
 async function run() {
   try {
@@ -19,6 +22,8 @@ async function run() {
 
     const environment = core.getInput('ENVIRONMENT');
     const path = core.getInput('PATH');
+    
+    const data = JSON.parse(process.env.CUSTOMERS)
 
     if (environment !== 'production' && environment !== 'staging') {
       throw new Error('Environment input must be provided (production or staging).');
@@ -28,23 +33,33 @@ async function run() {
     await exec.exec(`echo 🖥️ Job was automatically triggered by ${eventName} event`);
     await exec.exec(`echo 🔎 The name of your branch is ${ref} and your repository is ${repository.name}.`);
     
-    await exec.exec(`echo 🐧 Setting up the dependencies...`);
-    //await exec.exec('yarn install');
+    await exec.exec(`echo 🐧 Installing dependencies...`);
+    await exec.exec('yarn install');
 
-    await exec.exec(`echo ${path}`)
+    await exec.exec(`echo 🐧 Packaging, Validating and Updating...`);
+    for (const customer of data) {
+      await exec.exec(`echo 🐧 Creating .env and Building...`);
+      utils.objectToEnv(customer.environment[environment])
+      await exec.exec(`yarn build`);
+      
+      await exec.exec(`echo 🐧 Packaging, Validating and Updating...`);
+      const packagePath = await package.createPackage(path)
+      await package.validatePackage(packagePath)
+      const uploadId = await update.uploadPackage(packagePath)
+      const jobId = await update.installPackage(uploadId)
+      const { app_id } = await job.getJobStatuses(jobId)
+      
+      await exec.exec(`echo 🐧 Package path: ${packagePath}`);
+      await exec.exec(`echo 🐧 Upload ID: ${uploadId}`);
+      await exec.exec(`echo 🐧 Job ID: ${jobId}`);
+      await exec.exec(`echo 🐧 Job Status: Completed for app_id: ${app_id}`);
+      await exec.exec(`echo 🐧 Customer: ${customer.name} has been updated.`);
+    }
 
-    const res = await package.createPackage('dist', '1.0.0')
-    await exec.exec(`echo ${res}`)
-
-    //await exec.exec(`echo 🔎 Building, Packaging and Validating...`);
-    //await exec.exec(`echo ${process.env} >>> .env`);
-    //await exec.exec(`yarn build`);
-    //await exec.exec(`echo 🚀 Updating an existing application...`);
-    //await exec.exec(`echo 🎉 Job has been finished`);
-
+    await exec.exec(`echo 🚀 Job has been finished`);
   } catch (error) {
     core.setFailed(error.message);
   }
 } 
 
-run();
+run()

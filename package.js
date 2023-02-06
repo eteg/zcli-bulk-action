@@ -1,13 +1,11 @@
 const path = require('path')
-//const data = require('./test.json')
 const fs = require('fs')
 const archiver = require('archiver')
+const FormData = require('form-data')
 
-function log(message) {
-  return console.log(`[LOG]: ${message}`)
-}
+const API = require('./api.js')
 
-async function createPackage(srcRelativePath, version) {
+async function createPackage(srcRelativePath) {
   const srcAbsolutePath = path.resolve(srcRelativePath)
 
   if (!fs.existsSync(path.join(srcAbsolutePath, 'manifest.json'))) {
@@ -18,22 +16,27 @@ async function createPackage(srcRelativePath, version) {
     throw new Error('zcli.apps.config.json not found')
   }
 
+  const manifest = fs.readFileSync(path.join(srcAbsolutePath, 'manifest.json'), 'utf8')
+  const { version } = JSON.parse(manifest)
+
   const packageName = `${new Date().toISOString().replace(/[^0-9]/g, '')}-v${version}`
   const packagePath = `${srcAbsolutePath}/tmp/${packageName}.zip` 
-
-  log(packageName)
-  log(packagePath)
-
+  
   if (!fs.existsSync(path.join(srcAbsolutePath, 'tmp'))) {
     fs.mkdirSync(path.join(srcAbsolutePath, 'tmp'))
   }
 
-  const packageStream = fs.createWriteStream(packagePath)
-  const packageZip = archiver('zip')
+  const packageOutput = fs.createWriteStream(packagePath);
+  const packageArchive = archiver('zip')
 
-  packageZip.pipe(packageStream)
+  packageArchive.pipe(packageOutput)
 
-  await packageZip.finalize()
+  packageArchive.glob('**', {
+    cwd: srcAbsolutePath,
+    ignore: ['tmp/**']
+  })
+
+  await packageArchive.finalize()
 
   if (!fs.existsSync(packagePath)) {
     throw new Error(`Failed to create package at ${packagePath}`)
@@ -42,15 +45,24 @@ async function createPackage(srcRelativePath, version) {
   return packagePath
 }
 
-/* async function validatePackage() {
+// Zendesk API route not working as expected
+async function validatePackage(packagePath) {
+  const formData = new FormData()
+  formData.append('file', fs.createReadStream(packagePath))
+  const response = await API('/v2/apps/validate',
+    {
+      data: formData,
+      method: 'POST'
+    }
+  )
+  if (response.status !== 200) {
+    throw new Error('Package validation failed')
+  }
   
+  return response.data
 }
- */
-//createPackage('dist', '1.0.0')
 
 module.exports = {
   createPackage,
-  //validatePackage
+  validatePackage
 }
-
-
